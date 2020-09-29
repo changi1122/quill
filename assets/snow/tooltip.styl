@@ -11,7 +11,7 @@ tooltipMargin = 8px
     input[type=text]
       display: none
       border: 1px solid borderColor
-      font-size: 13px
+      font-size: 15px
       height: 26px
       margin: 0px
       padding: 3px 5px
@@ -24,11 +24,11 @@ tooltipMargin = 8px
       vertical-align: top
     a.ql-action::after
       border-right: 1px solid borderColor
-      content: 'Edit'
+      content: '수정'
       margin-left: tooltipMargin*2
       padding-right: tooltipMargin
     a.ql-remove::before
-      content: 'Remove'
+      content: '삭제'
       margin-left: tooltipMargin
     a
       line-height: 26px
@@ -39,14 +39,14 @@ tooltipMargin = 8px
       display: inline-block
     a.ql-action::after
       border-right: 0px
-      content: 'Save'
+      content: '저장'
       padding-right: 0px
   .ql-tooltip[data-mode=link]::before
-    content: "Enter link :"
+    content: "링크 입력 :"
     margin-right: tooltipMargin
   .ql-tooltip[data-mode=formula]::before
-    content: "Enter formula :"
+    content: "수식 입력 :"
     margin-right: tooltipMargin
   .ql-tooltip[data-mode=video]::before
-    content: "Enter video :"
+    content: "비디오 소스 입력 :"
     margin-right: tooltipMargin

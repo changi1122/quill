@@ -155,7 +155,7 @@ colorItemsPerRow = 7
     color: inactiveColor
     display: inline-block
     float: left
-    font-size: 14px
+    font-size: 15px
     font-weight: 500
     height: controlHeight
     position: relative
@@ -240,11 +240,11 @@ colorItemsPerRow = 7
     width: 98px
     .ql-picker-label::before,
     .ql-picker-item::before
-      content: 'Normal'
+      content: '본문'
     for num in (1..6)
       .ql-picker-label[data-value=\"{num}\"]::before,
       .ql-picker-item[data-value=\"{num}\"]::before
-        content: 'Heading ' + num
+        content: '제목 ' + num
     .ql-picker-item[data-value="1"]::before
       font-size: 2em
     .ql-picker-item[data-value="2"]::before
@@ -278,20 +278,20 @@ colorItemsPerRow = 7
     width: 98px
     .ql-picker-label::before,
     .ql-picker-item::before
-      content: 'Normal'
+      content: '보통'
     .ql-picker-label[data-value=small]::before,
     .ql-picker-item[data-value=small]::before
-      content: 'Small'
+      content: '작게'
     .ql-picker-label[data-value=large]::before,
     .ql-picker-item[data-value=large]::before
-      content: 'Large'
+      content: '크게'
     .ql-picker-label[data-value=huge]::before,
     .ql-picker-item[data-value=huge]::before
-      content: 'Huge'
+      content: '매우 크게'
     .ql-picker-item[data-value=small]::before
-      font-size: 10px
+      font-size: 12px
     .ql-picker-item[data-value=large]::before
-      font-size: 18px
+      font-size: 22px
     .ql-picker-item[data-value=huge]::before
       font-size: 32px
 

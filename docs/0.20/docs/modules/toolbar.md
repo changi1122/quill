@@ -67,13 +67,13 @@ title: Toolbar Module - Quill v0.20
               Monospace
             </option>
           </select> <select class="ql-size" title="Size">
-            <option value="10px">
+            <option value="12px">
               Small
             </option>
-            <option selected value="13px">
+            <option selected value="15px">
               Normal
             </option>
-            <option value="18px">
+            <option value="22px">
               Large
             </option>
             <option value="32px">
