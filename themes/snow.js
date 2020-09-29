@@ -2,6 +2,7 @@ import merge from 'lodash.merge';
 import Emitter from '../core/emitter';
 import BaseTheme, { BaseTooltip } from './base';
 import LinkBlot from '../formats/link';
+import Formula from '../formats/formula';
 import { Range } from '../core/selection';
 import icons from '../ui/icons';
 
@@ -16,6 +17,7 @@ class SnowTooltip extends BaseTooltip {
   constructor(quill, bounds) {
     super(quill, bounds);
     this.preview = this.root.querySelector('a.ql-preview');
+    this.previewFormula = this.root.querySelector('span.ql-preview-formula');
   }
 
   listen() {
@@ -23,18 +25,25 @@ class SnowTooltip extends BaseTooltip {
     this.root.querySelector('a.ql-action').addEventListener('click', event => {
       if (this.root.classList.contains('ql-editing')) {
         this.save();
+      } else if (!this.previewFormula.hasAttribute('style')) {
+        this.edit('formula', this.preview.textContent);
       } else {
         this.edit('link', this.preview.textContent);
       }
       event.preventDefault();
     });
     this.root.querySelector('a.ql-remove').addEventListener('click', event => {
-      if (this.linkRange != null) {
+      if (!this.previewFormula.hasAttribute('style')) {
+        const rangeFormula = this.quill.getSelection();
+        const indexFormula = rangeFormula.index;
+        this.quill.deleteText(indexFormula, 1);
+      } else if (this.linkRange != null) {
         const range = this.linkRange;
         this.restoreFocus();
         this.quill.formatText(range, 'link', false, Emitter.sources.USER);
         delete this.linkRange;
       }
+
       event.preventDefault();
       this.hide();
     });
@@ -43,11 +52,30 @@ class SnowTooltip extends BaseTooltip {
       (range, oldRange, source) => {
         if (range == null) return;
         if (range.length === 0 && source === Emitter.sources.USER) {
+          if (this.quill.getContents(range.index, 1).ops[0].insert.formula) {
+            this.preview.setAttribute('style', 'display: none');
+            this.previewFormula.removeAttribute('style');
+
+            this.preview.textContent = this.quill.getContents(
+              range.index,
+              1,
+            ).ops[0].insert.formula;
+            const preview = Formula.create(
+              this.quill.getContents(range.index, 1).ops[0].insert.formula,
+            );
+            this.previewFormula.textContent = '';
+            this.previewFormula.appendChild(preview);
+            this.show();
+            this.position(this.quill.getBounds(range.index));
+            return;
+          }
           const [link, offset] = this.quill.scroll.descendant(
             LinkBlot,
             range.index,
           );
           if (link != null) {
+            this.preview.removeAttribute('style');
+            this.previewFormula.setAttribute('style', 'display: none');
             this.linkRange = new Range(range.index - offset, link.length());
             const preview = LinkBlot.formats(link.domNode);
             this.preview.textContent = preview;
@@ -71,6 +99,7 @@ class SnowTooltip extends BaseTooltip {
 }
 SnowTooltip.TEMPLATE = [
   '<a class="ql-preview" rel="noopener noreferrer" target="_blank" href="about:blank"></a>',
+  '<span class="ql-preview-formula"></span>',
   '<input type="text" data-formula="e=mc^2" data-link="https://quilljs.com" data-video="Embed URL">',
   '<a class="ql-action"></a>',
   '<a class="ql-remove"></a>',

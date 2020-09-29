@@ -211,6 +211,38 @@ class BaseTooltip extends Tooltip {
   }
 
   edit(mode = 'link', preview = null) {
+    if (mode === 'formula') {
+      const range2 = this.quill.getSelection();
+      const indexFormula = range2.index;
+      let currentValue = '';
+      if (preview) {
+        currentValue = preview;
+      }
+      window.open(
+        `formula-editor.html?index=${indexFormula}&value=${currentValue}`,
+        '_blank',
+        'width=500,height=500',
+      );
+
+      window.addEventListener(
+        'message',
+        event => {
+          if (event.data.value) {
+            this.quill.deleteText(event.data.index, 1);
+            this.quill.insertEmbed(
+              event.data.index,
+              'formula',
+              event.data.value,
+              Emitter.sources.USER,
+            );
+          }
+        },
+        false,
+      );
+      this.hide();
+      return;
+    }
+
     this.root.classList.remove('ql-hidden');
     this.root.classList.add('ql-editing');
     if (preview != null) {

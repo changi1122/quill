@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<body>
+<p>Enter name </p>  
+<input type="text" id="txtbx" />
+<br/><br/>
+<button onclick="copyFunc()">Copy</button>
+
+<script>
+function getUrlParams() {
+    var params = {};
+    window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(str, key, value) { params[key] = value; });
+    return params;
+}
+let query_params = getUrlParams();
+if (query_params["value"])
+    document.getElementById("txtbx").value = query_params["value"];
+
+function copyFunc() {
+   if (window.opener != null && !window.opener.closed) {
+            window.opener.postMessage({ value : document.getElementById("txtbx").value, index : query_params["index"] }, '*');
+        }
+    window.close();
+}
+
+</script>
+</body>
+</html>
