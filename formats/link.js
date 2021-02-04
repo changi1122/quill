@@ -30,9 +30,7 @@ Link.tagName = 'A';
 Link.PROTOCOL_WHITELIST = ['http', 'https', 'mailto', 'tel'];
 
 function sanitize(url, protocols) {
-  const anchor = document.createElement('a');
-  anchor.href = url;
-  const protocol = anchor.href.slice(0, anchor.href.indexOf(':'));
+  const protocol = url.slice(0, url.indexOf(':'));
   return protocols.indexOf(protocol) > -1;
 }
 
