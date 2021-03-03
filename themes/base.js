@@ -219,9 +219,9 @@ class BaseTooltip extends Tooltip {
         currentValue = preview;
       }
       window.open(
-        `formula-editor.html?index=${indexFormula}&value=${currentValue}`,
+        `/formula-editor?index=${indexFormula}&value=${currentValue}`,
         '_blank',
-        'width=500,height=500',
+        'width=640,height=480',
       );
 
       window.addEventListener(
